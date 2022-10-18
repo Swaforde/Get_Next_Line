@@ -15,6 +15,19 @@
 char *get_next_line(int fd)
 {
 	static char *line_got;
+	char		*gBuffer;
+	char		*tmp;
+	char		res_read[10];
+	int			index;
 
 	line_got = NULL;
+	index = 0;
+	read(fd, res_read, 10);
+	while (ft_strchr(res_read, '\n') == NULL)
+	{
+		if (gBuffer == NULL)
+			gBuffer = ft_strdup(res_read);
+		read(fd, res_read, 10);
+	}
+	return (line_got);
 }
