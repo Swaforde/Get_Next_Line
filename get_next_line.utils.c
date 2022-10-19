@@ -6,7 +6,7 @@
 /*   By: tbouvera <tbouvera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 12:11:48 by tbouvera          #+#    #+#             */
-/*   Updated: 2022/10/18 16:16:25 by tbouvera         ###   ########.fr       */
+/*   Updated: 2022/10/19 14:11:15 by tbouvera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ size_t  ft_strlen(const char *str)
     return (index);
 }
 
-static char    *ft_strchr(const char *s, int c)
+char    *ft_strchr(const char *s, int c)
 {
     int     index;
 
     index = 0;
     while (s[index] != ((char)c))
-        {
+    {
         if (s[index] == '\0')
         {
             return (NULL);
@@ -56,4 +56,30 @@ char    *ft_strdup(const char *s1)
     }
     dest[index] = '\0';
     return (dest);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*ptr;
+	size_t	total_size;
+	int		index;
+	int		ptr_index;
+
+	index = 0;
+	ptr_index = 0;
+	total_size = ft_strlen(s1) + ft_strlen(s2);
+	ptr = (char *)malloc (total_size * sizeof(char) + 1);
+	if (!ptr)
+		return (NULL);
+	while (s1[index] != 0)
+	{
+		ptr[index] = s1[index];
+		index ++;
+	}
+	ptr_index = index;
+	index = 0;
+	while (s2[index] != 0)
+		ptr[ptr_index++] = s2[index++];
+	ptr[ptr_index] = 0;
+	return (ptr);
 }
