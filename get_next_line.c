@@ -12,36 +12,61 @@
 
 #include "get_next_line.h"
 
+int	get_line_size(const char *ptr)
+{
+	int	index;
+	
+	index = 0;
+	while (ptr[index] != '\0' && ptr[index] != '\n')
+		index ++;
+	return (index);
+}
+
+char	*get_first_line(const char *ptr)
+{
+	char	*ptr_d;
+	int	index;
+
+	index = 0;
+	ptr_d = malloc (sizeof(char) * index + 1);
+	if (!ptr)
+		return (NULL);
+	while (index != get_line_size(ptr))
+	{
+		ptr_d[index] = ptr[index];
+		index ++;
+	}
+	ptr_d[index] = '\0';
+	return (ptr_d);
+}
+
 char *get_next_line(int fd)
 {
 	static char *line_got;
-	char		*gBuffer;
-	char		*tmp1;
-	char		*tmp2;
+	static char		*gBuffer;
+	static char		*tmp1;
 	char		*res_read;
 	int			size;
 
-	gBuffer = NULL;
 	tmp1 = NULL;
-	tmp2 = NULL;
-	size = 20;
+	size = 10;
+	gBuffer = malloc(sizeof(char) * 1);
+	if (!gBuffer)
+		return (NULL);
+	gBuffer[0] = '\0';
 	res_read = malloc (sizeof(char) * (size) + 1);
 	if (!res_read)
 		return (NULL);
 	res_read[size + 1] = '\0';
-	while (ft_strchr(res_read, '\n') == NULL)
+	while (ft_strchr(gBuffer, '\n') == NULL)
 	{
-		read(fd, res_read, size);
-		if (gBuffer == NULL)
-		{
-			gBuffer = ft_strdup(res_read);
-		}
 		if (tmp1 != NULL)
 			free (tmp1);
 		tmp1 = ft_strdup(gBuffer);
-		free (gBuffer);
-		gBuffer = ft_strdup(res_read);
-		gBuffer = ft_strjoin(tmp1, gBuffer);
+		free(gBuffer);
+		gBuffer = ft_strjoin(tmp1, res_read);
+		read(fd, res_read, size);
 	}
-	return (gBuffer);
+	line_got = get_first_line(gBuffer);
+	return (line_got);
 }
