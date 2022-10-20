@@ -6,7 +6,7 @@
 /*   By: tbouvera <tbouvera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 12:11:35 by tbouvera          #+#    #+#             */
-/*   Updated: 2022/10/19 14:26:51 by tbouvera         ###   ########.fr       */
+/*   Updated: 2022/10/20 15:26:57 by tbouvera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,30 @@ char	*get_first_line(const char *ptr)
 	return (ptr_d);
 }
 
+char	*save_the_extra(char *gBuffer)
+{
+	char	*ptr;
+	int		index;
+
+	index = get_line_size(gBuffer);
+	printf ("(%c)", gBuffer[index]);
+	return (ptr);
+}
+
 char *get_next_line(int fd)
 {
-	static char *line_got;
+	char *line_got;
 	static char		*gBuffer;
-	static char		*tmp1;
+	char		*tmp1;
 	char		*res_read;
 	int			size;
+	int			read_nb;
 
+	//printf ("---->%s<----", gBuffer);
 	tmp1 = NULL;
-	size = 10;
+	size = 22;
+	if(fd < 0 || size <= 0)
+		return (NULL);
 	gBuffer = malloc(sizeof(char) * 1);
 	if (!gBuffer)
 		return (NULL);
@@ -57,16 +71,20 @@ char *get_next_line(int fd)
 	res_read = malloc (sizeof(char) * (size) + 1);
 	if (!res_read)
 		return (NULL);
-	res_read[size + 1] = '\0';
-	while (ft_strchr(gBuffer, '\n') == NULL)
+	read_nb = 1;
+	while (ft_strchr(gBuffer, '\n') == NULL && read_nb != 0)
 	{
-		if (tmp1 != NULL)
-			free (tmp1);
+		read_nb = read(fd, res_read, size);
+		res_read[read_nb] = '\0';
 		tmp1 = ft_strdup(gBuffer);
 		free(gBuffer);
 		gBuffer = ft_strjoin(tmp1, res_read);
-		read(fd, res_read, size);
+		if (tmp1 != NULL)
+			free (tmp1);
 	}
+	if(res_read != 0)
+		free(gBuffer);
 	line_got = get_first_line(gBuffer);
+	printf ("%s", gBuffer);
 	return (line_got);
 }

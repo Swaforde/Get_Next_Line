@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbouvera <tbouvera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 12:11:48 by tbouvera          #+#    #+#             */
-/*   Updated: 2022/10/19 14:11:15 by tbouvera         ###   ########.fr       */
+/*   Updated: 2022/10/20 13:19:01 by tbouvera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	index = 0;
 	while (s2[index] != 0)
 		ptr[ptr_index++] = s2[index++];
-	ptr[ptr_index] = 0;
+	ptr[ptr_index] = '\0';
 	return (ptr);
 }
