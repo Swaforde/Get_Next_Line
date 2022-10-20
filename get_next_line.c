@@ -73,14 +73,18 @@ char *get_next_line(int fd)
 	int			size;
 	int			read_nb;
 
-	printf ("---->%s<----", gBuffer);
+	//printf ("---->%s<----", gBuffer);
 	tmp1 = NULL;
 	size = 22;
 	if(fd < 0 || size <= 0)
 		return (NULL);
-	gBuffer = malloc(sizeof(char) * 1);
-	if (!gBuffer)
-		return (NULL);
+	if (gBuffer == NULL)
+	{
+		gBuffer = malloc(sizeof(char) * 1);
+		if (!gBuffer)
+			return (NULL);
+		gBuffer[0] = '\0';
+	}
 	res_read = malloc (sizeof(char) * (size) + 1);
 	if (!res_read)
 		return (NULL);
@@ -90,14 +94,12 @@ char *get_next_line(int fd)
 		read_nb = read(fd, res_read, size);
 		res_read[read_nb] = '\0';
 		tmp1 = ft_strdup(gBuffer);
-		free(gBuffer);
 		gBuffer = ft_strjoin(tmp1, res_read);
 		if (tmp1 != NULL)
 			free (tmp1);
 	}
-	if(res_read != 0)
-		free(gBuffer);
 	line_got = get_first_line(gBuffer);
 	gBuffer = ft_strdup(save_the_extra(gBuffer));
+	//free (tmp1);
 	return (line_got);
 }

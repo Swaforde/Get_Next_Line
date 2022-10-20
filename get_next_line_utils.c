@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbouvera <tbouvera@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbouvera <tbouvera@student.42.1>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 12:11:48 by tbouvera          #+#    #+#             */
 /*   Updated: 2022/10/20 16:55:35 by tbouvera         ###   ########.fr       */
