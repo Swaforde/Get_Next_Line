@@ -6,7 +6,7 @@
 /*   By: tbouvera <tbouvera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 12:11:26 by tbouvera          #+#    #+#             */
-/*   Updated: 2022/10/20 13:14:58 by tbouvera         ###   ########.fr       */
+/*   Updated: 2022/10/21 10:27:43 by tbouvera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,6 @@ char		   	*ft_strchr(const char *s, int c);
 size_t  		ft_strlen(const char *str);
 char    		*ft_strdup(const char *s1);
 char			*ft_strjoin(char const *s1, char const *s2);
+void			ft_bzero(void *s, size_t n);
+void			*ft_calloc(size_t count, size_t size);
 #endif
