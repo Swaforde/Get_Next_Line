@@ -1,5 +1,5 @@
 #include "get_next_line.h"
-#define BUFFER_SIZE 11
+//#define BUFFER_SIZE 11
 
 char	*ft_get_first_line(char *buffer)
 {
@@ -20,7 +20,7 @@ char	*ft_get_first_line(char *buffer)
 		ptr[i] = buffer[i];
 		i ++;
 	}
-	if (buffer[i] != '\n')
+	if (buffer[i] == '\n')
 	{
 		ptr[i] = '\n';
 		i ++;
@@ -31,31 +31,60 @@ char	*ft_get_first_line(char *buffer)
 
 char	*save_read(int fd, char *buffer)
 {
-	char	*res;
-	int		byte_read;
+	char	*buff;
+	int		read_bytes;
 
-	res = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!res)
+	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buff)
 		return (NULL);
-	ft_bzero(res, BUFFER_SIZE + 1);
-	read(fd, res, BUFFER_SIZE);
-	if (ft_strchr(res, '\0') != NULL)
-		printf ("trouver");
-
-	byte_read = 1;
-	while (byte_read > 0 && ft_strchr(res, '\n') == NULL)
+	read_bytes = 1;
+	while (!ft_strchr(buffer, '\n') && read_bytes != 0)
 	{
-		if (byte_read == -1)
+		read_bytes = read(fd, buff, BUFFER_SIZE);
+		if (read_bytes == -1)
 		{
-			free (res);
+			free(buff);
 			return (NULL);
 		}
-		byte_read = read(fd, res, BUFFER_SIZE);
-		res[byte_read] = '\0';
-		buffer = ft_strjoin(buffer, res);
+		buff[read_bytes] = '\0';
+		buffer = ft_strjoin(buffer, buff);
 	}
-	free (res);
+	free(buff);
 	return (buffer);
+}
+
+char	*ft_save(char *buffer)
+{
+	char	*ptr;
+	int		i;
+	int		s;
+	int		t;
+	
+	i = 0;
+	s = 0;
+	t = 0;
+	while (buffer[i] != '\n')
+		i++;
+	i ++;
+	t = i;
+	while (buffer[i] != '\0')
+	{
+		i ++;
+		s ++;
+	}
+	ptr = (char *)malloc (sizeof(char) * (s + 1));
+	if (!ptr)
+		return (NULL);
+	s = 0;
+	while (buffer[t] != '\0')
+	{
+		ptr[s] = buffer[t];
+		s ++;
+		t ++;
+	}
+	ptr[s] = '\0';
+	free(buffer);
+	return (ptr);
 }
 
 char	*get_next_line(int fd)
@@ -83,6 +112,7 @@ char	*get_next_line(int fd)
 	}
 	buffer = save_read(fd, buffer);
 	line = ft_get_first_line(buffer);
+	buffer = ft_save(buffer);
 	if (read(fd, test, BUFFER_SIZE) == 0)
 		free (buffer);
 	free (test);
