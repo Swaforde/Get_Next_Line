@@ -13,20 +13,11 @@
 #include "get_next_line.h"
 #include <fcntl.h>
 
-/*
-
- gnl(1000,  NULL);
- gnl(-1,  NULL); close(fd);
- gnl(fd,  NULL) 
-*/
-
 int	main(void)
 {
 	int	fd;
-	fd = open("empty", O_RDONLY);
-	
-	printf ("%p\n", get_next_line(fd));
-	close(fd);
-	printf("%p\n", get_next_line(fd));
+	fd = open("text.txt", O_RDONLY);
+	get_next_line(fd);
+		get_next_line(fd);
 	return (1);
 }
