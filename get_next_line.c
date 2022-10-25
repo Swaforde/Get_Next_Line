@@ -1,5 +1,5 @@
 #include "get_next_line.h"
-//#define BUFFER_SIZE 11
+//#define BUFFER_SIZE 1
 
 char	*ft_get_first_line(char *buffer)
 {
@@ -46,7 +46,12 @@ char	*save_read(int fd, char *buffer)
 	while (!ft_strchr(buffer, '\n') && read_bytes != 0)
 	{
 		read_bytes = read(fd, buff, BUFFER_SIZE);
-		if (read_bytes <= 0)
+		if (read_bytes == -1)
+		{
+			free(buff);
+			return (NULL);
+		}
+		if (read_bytes == 0)
 		{
 			free(buff);
 			return (buffer);
@@ -105,7 +110,6 @@ char	*get_next_line(int fd)
 
 	char		*line;
 	char		*test;
-
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
 	test = malloc (sizeof(char) * BUFFER_SIZE + 1);
