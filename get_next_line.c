@@ -1,5 +1,5 @@
 #include "get_next_line.h"
-//#define BUFFER_SIZE 11
+#define BUFFER_SIZE 11
 
 char	*ft_get_first_line(char *buffer)
 {
