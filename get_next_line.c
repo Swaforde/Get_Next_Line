@@ -40,46 +40,31 @@ char	*ft_get_first_line(char *buffer)
 	return (ptr);
 }
 
-char	*ft_foo(char **buff, char **tmp, int read_byte)
-{
-
-}
-
-char	*save_read(int fd, char *buffer)
+char	*save_read(int fd, char *buffer, int read_bytes)
 {
 	char	*buff;
 	char	*tmp;
-	int		read_bytes;
 
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
 		return (NULL);
 	buff[0] = '\0';
-	read_bytes = 1;
-	tmp = malloc (sizeof(char) * 1);
-	if (!tmp)
-		return (NULL);
-	tmp[0] = '\0';
 	while (read_bytes != 0 && !ft_strchr(buff, '\n'))
 	{
 		if (read_bytes <= 0)
 		{
 			free(buff);
-			free(tmp);
 			if (read_bytes == 0)
 				return (buffer);
 			return (NULL);
 		}
 		read_bytes = read(fd, buff, BUFFER_SIZE);
 		buff[read_bytes] = '\0';
-		if (tmp != NULL)
-			free (tmp);
-		tmp = ft_strdup(buffer);
-		free(buffer);
+		tmp = buffer;
 		buffer = ft_strjoin(tmp, buff);
+		free(tmp);
 	}
 	free(buff);
-	free(tmp);
 	return (buffer);
 }
 
@@ -117,7 +102,9 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*line;
 	char		*tmp;
+	int			read_bytes;
 
+	read_bytes = 1;
 	if (ft_check_error(fd, BUFFER_SIZE, &buffer) == 1)
 		return (NULL);
 	if (buffer == NULL)
@@ -127,7 +114,7 @@ char	*get_next_line(int fd)
 			return (NULL);
 		buffer[0] = '\0';
 	}
-	buffer = save_read(fd, buffer);
+	buffer = save_read(fd, buffer, read_bytes);
 	if (buffer == NULL)
 		return (NULL);
 	tmp = ft_strdup(buffer);
