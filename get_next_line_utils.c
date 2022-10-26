@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbouvera <tbouvera@student.42.1>          +#+  +:+       +#+        */
+/*   By: tbouvera <tbouvera@student.42.1>          +#+  +:+       +#+         */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 12:11:48 by tbouvera          #+#    #+#             */
 /*   Updated: 2022/10/20 16:55:35 by tbouvera         ###   ########.fr       */
@@ -12,62 +12,62 @@
 
 #include "get_next_line.h"
 
-void	ft_bzero(void *s, size_t n)
+int	ft_check_error(int fd, int buff_size, char **buffer)
+{
+	if (fd < 0 || buff_size <= 0 || read(fd, 0, 0) < 0)
+	{
+		if (*buffer != NULL)
+			free (*buffer);
+		*buffer = NULL;
+		return (1);
+	}
+	return (0);
+}
+
+size_t	ft_strlen(const char *str)
 {
 	size_t	index;
 
 	index = 0;
-	while (index < n)
+	while (str[index] != 0)
+		index++;
+	return (index);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int	index;
+
+	index = 0;
+	while (s[index] != ((char)c))
 	{
-		((unsigned char *)s)[index] = 0;
+		if (s[index] == '\0')
+		{
+			return (NULL);
+		}
 		index++;
 	}
+	return ((char *)s + index);
 }
 
-size_t  ft_strlen(const char *str)
+char	*ft_strdup(const char *s1)
 {
-    size_t  index;
+	char	*dest;
+	size_t	str_size;
+	int		index;
 
-    index = 0;
-    while (str[index] != 0)
-            index++;
-    return (index);
-}
-
-char    *ft_strchr(const char *s, int c)
-{
-    int     index;
-
-    index = 0;
-    while (s[index] != ((char)c))
-    {
-        if (s[index] == '\0')
-        {
-            return (NULL);
-        }
-        index++;
-    }
-    return ((char *)s + index);
-}
-
-char    *ft_strdup(const char *s1)
-{
-    char    *dest;
-    size_t  str_size;
-    int             index;
-
-    str_size = ft_strlen(s1);
-    dest = (char *)malloc (sizeof (char) * str_size + 1);
-    if (!dest)
-        return (NULL);
-    index = 0;
-    while (s1[index] != '\0')
-    {
-        dest[index] = s1[index];
-        index++;
-    }
-    dest[index] = '\0';
-    return (dest);
+	str_size = ft_strlen(s1);
+	dest = (char *)malloc (sizeof (char) * str_size + 1);
+	if (!dest)
+		return (NULL);
+	index = 0;
+	while (s1[index] != '\0')
+	{
+		dest[index] = s1[index];
+		index++;
+	}
+	dest[index] = '\0';
+	return (dest);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)

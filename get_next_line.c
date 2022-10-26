@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouvera <tbouvera@student.42.1>          +#+  +:+       +#+         */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/18 12:11:48 by tbouvera          #+#    #+#             */
+/*   Updated: 2022/10/20 16:55:35 by tbouvera         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
-//#define BUFFER_SIZE 10
 
 char	*ft_get_first_line(char *buffer)
 {
 	char	*ptr;
 	int		i;
-	
+
 	i = 0;
 	if (buffer[i] == '\0')
 		return (NULL);
@@ -77,35 +88,25 @@ char	*ft_save(char *buffer)
 	int		i;
 	int		s;
 	int		t;
-	
+
 	i = 0;
 	s = 0;
 	t = 0;
 	while (buffer[i] != '\n')
 	{
-		if (buffer[i] == '\0')
+		if (buffer[i++] == '\0')
 			return (NULL);
-		i++;
 	}
 	i ++;
 	t = i;
-	while (buffer[i] != '\0')
-	{
-		i ++;
+	while (buffer[i++] != '\0')
 		s ++;
-	}
 	ptr = (char *)malloc (sizeof(char) * (s + 1));
 	if (!ptr)
-	{
 		return (NULL);
-	}
 	s = 0;
 	while (buffer[t] != '\0')
-	{
-		ptr[s] = buffer[t];
-		s ++;
-		t ++;
-	}
+		ptr[s++] = buffer[t++];
 	ptr[s] = '\0';
 	return (ptr);
 }
@@ -115,13 +116,9 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*line;
 	char		*tmp;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-	{
-		if (buffer != NULL)
-			free (buffer);
-		buffer = NULL;
+
+	if (ft_check_error(fd, BUFFER_SIZE, &buffer) == 1)
 		return (NULL);
-	}
 	if (buffer == NULL)
 	{
 		buffer = malloc (sizeof(char) * 1);
@@ -131,9 +128,7 @@ char	*get_next_line(int fd)
 	}
 	buffer = save_read(fd, buffer);
 	if (buffer == NULL)
-	{
 		return (NULL);
-	}
 	tmp = ft_strdup(buffer);
 	line = ft_get_first_line(buffer);
 	free (buffer);
