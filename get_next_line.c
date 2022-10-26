@@ -46,10 +46,9 @@ char	*save_read(int fd, char *buffer)
 	tmp[0] = '\0';
 	while (read_bytes != 0 && !ft_strchr(buff, '\n'))
 	{
-		read_bytes = read(fd, buff, BUFFER_SIZE);
 		if (read_bytes == -1)
 		{
-			free(buff);
+			free (buff);
 			free(tmp);
 			return (NULL);
 		}
@@ -59,6 +58,7 @@ char	*save_read(int fd, char *buffer)
 			free(tmp);
 			return (buffer);
 		}
+		read_bytes = read(fd, buff, BUFFER_SIZE);
 		buff[read_bytes] = '\0';
 		if (tmp != NULL)
 			free (tmp);
@@ -97,7 +97,6 @@ char	*ft_save(char *buffer)
 	ptr = (char *)malloc (sizeof(char) * (s + 1));
 	if (!ptr)
 	{
-		free (buffer);
 		return (NULL);
 	}
 	s = 0;
@@ -117,7 +116,11 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*tmp;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{
+		if (buffer != NULL)
+			free (buffer);
 		return (NULL);
+	}
 	if (buffer == NULL)
 	{
 		buffer = malloc (sizeof(char) * 1);
@@ -127,7 +130,9 @@ char	*get_next_line(int fd)
 	}
 	buffer = save_read(fd, buffer);
 	if (buffer == NULL)
+	{
 		return (NULL);
+	}
 	tmp = ft_strdup(buffer);
 	line = ft_get_first_line(buffer);
 	free (buffer);
