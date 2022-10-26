@@ -119,6 +119,7 @@ char	*get_next_line(int fd)
 	{
 		if (buffer != NULL)
 			free (buffer);
+		buffer = NULL;
 		return (NULL);
 	}
 	if (buffer == NULL)
