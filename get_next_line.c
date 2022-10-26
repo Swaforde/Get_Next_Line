@@ -8,18 +8,19 @@ char	*ft_get_first_line(char *buffer)
 	
 	i = 0;
 	if (buffer[i] == '\0')
-		return (NULL);
+		return (NULL);a
 	while (buffer[i] != '\0' && buffer[i] != '\n')
 		i++;
-	ptr = malloc (sizeof(char) * (i) + 2);
-	if (!ptr)
-		return (NULL);
+	ptr	
+	return (NULL);
 	i = 0;
 	while (buffer[i] != '\0' && buffer[i] != '\n')
 	{
 		ptr[i] = buffer[i];
 		i ++;
-	}
+	} = malloc (sizeof(char) * (i) + 2);
+	if (!ptr)
+	
 	if (buffer[i] == '\n')
 	{
 		ptr[i] = '\n';
