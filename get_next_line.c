@@ -40,6 +40,11 @@ char	*ft_get_first_line(char *buffer)
 	return (ptr);
 }
 
+char	*ft_foo(char **buff, char **tmp, int read_byte)
+{
+
+}
+
 char	*save_read(int fd, char *buffer)
 {
 	char	*buff;
@@ -57,17 +62,13 @@ char	*save_read(int fd, char *buffer)
 	tmp[0] = '\0';
 	while (read_bytes != 0 && !ft_strchr(buff, '\n'))
 	{
-		if (read_bytes == -1)
-		{
-			free (buff);
-			free(tmp);
-			return (NULL);
-		}
-		if (read_bytes == 0)
+		if (read_bytes <= 0)
 		{
 			free(buff);
 			free(tmp);
-			return (buffer);
+			if (read_bytes == 0)
+				return (buffer);
+			return (NULL);
 		}
 		read_bytes = read(fd, buff, BUFFER_SIZE);
 		buff[read_bytes] = '\0';
